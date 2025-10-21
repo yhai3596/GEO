@@ -3,13 +3,13 @@
 
 -- 插入管理员用户（密码: admin123）
 INSERT INTO users (id, email, password_hash, name, role) VALUES 
-('550e8400-e29b-41d4-a716-446655440000', 'admin@geo-platform.com', '$2b$10$rOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQ', '系统管理员', 'admin')
+('550e8400-e29b-41d4-a716-446655440000', 'admin@geo-platform.com', '$2a$12$ugFAIElMSDJgolqb7T6JmO1duxLu5Bu5W7ZP.z/3isHh3A3ysgLaS', '系统管理员', 'admin')
 ON CONFLICT (email) DO NOTHING;
 
 -- 插入示例用户
 INSERT INTO users (id, email, password_hash, name, role) VALUES 
-('550e8400-e29b-41d4-a716-446655440001', 'analyst@geo-platform.com', '$2b$10$rOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQ', 'GEO分析师', 'geo_analyst'),
-('550e8400-e29b-41d4-a716-446655440002', 'business@geo-platform.com', '$2b$10$rOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQqQqQqQqOzJqQqQqQqQqQ', '业务用户', 'business_user')
+('550e8400-e29b-41d4-a716-446655440001', 'analyst@geo-platform.com', '$2a$12$ugFAIElMSDJgolqb7T6JmO1duxLu5Bu5W7ZP.z/3isHh3A3ysgLaS', 'GEO分析师', 'geo_analyst'),
+('550e8400-e29b-41d4-a716-446655440002', 'business@geo-platform.com', '$2a$12$ugFAIElMSDJgolqb7T6JmO1duxLu5Bu5W7ZP.z/3isHh3A3ysgLaS', '业务用户', 'business_user')
 ON CONFLICT (email) DO NOTHING;
 
 -- 插入示例关键词

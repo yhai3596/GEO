@@ -32,7 +32,7 @@ export interface AuthActions {
 
 export type AuthStore = AuthState & AuthActions;
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -93,7 +93,7 @@ export const useAuthStore = create<AuthStore>()(
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, email, password }),
+            body: JSON.stringify({ name: username, email, password }),
           });
 
           const data = await response.json();

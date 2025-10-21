@@ -1,6 +1,6 @@
 import { ApiResponse } from '../../shared/types/database';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'http://localhost:3002/api';
 
 export interface Keyword {
   id: string;

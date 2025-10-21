@@ -8,13 +8,13 @@ const authService = new AuthService();
 // 用户注册
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
 
     // 基本验证
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: '用户名、邮箱和密码不能为空'
+        message: '姓名、邮箱和密码不能为空'
       });
     }
 
@@ -28,10 +28,10 @@ router.post('/register', async (req, res) => {
     }
 
     const result = await authService.register({
-      username,
+      name,
       email,
       password,
-      role: role || 'user'
+      role: role || 'business_user'
     });
 
     if (result.success) {

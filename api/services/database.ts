@@ -16,11 +16,11 @@ export class DatabaseService {
   // 用户相关操作
   async createUser(userData: Omit<User, 'id' | 'created_at' | 'updated_at' | 'last_login_at'>): Promise<User> {
     const query = `
-      INSERT INTO users (username, email, password, role, status)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO users (name, email, password_hash, role)
+      VALUES ($1, $2, $3, $4)
       RETURNING *
     `;
-    const values = [userData.username, userData.email, userData.password, userData.role, userData.status];
+    const values = [userData.name, userData.email, userData.password_hash, userData.role];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -31,11 +31,7 @@ export class DatabaseService {
     return result.rows[0] || null;
   }
 
-  async getUserByUsername(username: string): Promise<User | null> {
-    const query = 'SELECT * FROM users WHERE username = $1';
-    const result = await pool.query(query, [username]);
-    return result.rows[0] || null;
-  }
+
 
   async getUserById(id: string): Promise<User | null> {
     const query = 'SELECT * FROM users WHERE id = $1';
@@ -55,7 +51,7 @@ export class DatabaseService {
   }
 
   async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
-    const query = 'UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2';
+    const query = 'UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2';
     await pool.query(query, [hashedPassword, userId]);
   }
 

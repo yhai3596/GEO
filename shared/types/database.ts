@@ -2,11 +2,11 @@
 
 export interface User {
   id: string;
-  username: string;
+  name: string;
   email: string;
-  password: string;
+  password_hash: string;
   role: 'admin' | 'geo_analyst' | 'business_user';
-  status: 'active' | 'inactive' | 'suspended';
+  status?: 'active' | 'inactive' | 'suspended';
   created_at: Date;
   updated_at: Date;
   last_login_at?: Date;

@@ -4,7 +4,7 @@ import { generateToken } from '../utils/jwt.js';
 import { User } from '../../shared/types/database.js';
 
 export interface RegisterData {
-  username: string;
+  name: string;
   email: string;
   password: string;
   role?: 'admin' | 'geo_analyst' | 'business_user';
@@ -34,7 +34,7 @@ export class AuthService {
 
   async register(registerData: RegisterData): Promise<AuthResponse> {
     try {
-      const { username, email, password, role = 'business_user' } = registerData;
+      const { name, email, password, role = 'business_user' } = registerData;
 
       // 验证密码强度
       const passwordValidation = validatePassword(password);
@@ -55,32 +55,22 @@ export class AuthService {
         };
       }
 
-      // 检查用户名是否已存在
-      const existingUsername = await this.dbService.getUserByUsername(username);
-      if (existingUsername) {
-        return {
-          success: false,
-          message: '该用户名已被使用'
-        };
-      }
-
       // 加密密码
       const hashedPassword = await hashPassword(password);
 
       // 创建用户
       const newUser = await this.dbService.createUser({
-        username,
+        name,
         email,
-        password: hashedPassword,
-        role,
-        status: 'active'
+        password_hash: hashedPassword,
+        role
       });
 
       // 生成JWT令牌
       const token = generateToken(newUser);
 
       // 返回用户信息（不包含密码）
-      const { password: _, ...userWithoutPassword } = newUser;
+      const { password_hash: _, ...userWithoutPassword } = newUser;
 
       return {
         success: true,
@@ -122,7 +112,7 @@ export class AuthService {
       }
 
       // 验证密码
-      const isPasswordValid = await comparePassword(password, user.password);
+      const isPasswordValid = await comparePassword(password, user.password_hash);
       if (!isPasswordValid) {
         return {
           success: false,
@@ -137,7 +127,7 @@ export class AuthService {
       const token = generateToken(user);
 
       // 返回用户信息（不包含密码）
-      const { password: _, ...userWithoutPassword } = user;
+      const { password_hash: _, ...userWithoutPassword } = user;
 
       return {
         success: true,
@@ -168,7 +158,7 @@ export class AuthService {
       }
 
       // 返回用户信息（不包含密码）
-      const { password: _, ...userWithoutPassword } = user;
+      const { password_hash: _, ...userWithoutPassword } = user;
 
       return {
         success: true,
@@ -200,7 +190,7 @@ export class AuthService {
       }
 
       // 验证旧密码
-      const isOldPasswordValid = await comparePassword(oldPassword, user.password);
+      const isOldPasswordValid = await comparePassword(oldPassword, user.password_hash);
       if (!isOldPasswordValid) {
         return {
           success: false,
