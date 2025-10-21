@@ -17,7 +17,8 @@
     "deploy": "vercel --prod",
     "deploy:check": "node deploy.js",
     "build:all": "npm run check && npm run build && npm run server:build",
-    "test:build": "npm run build:all"
+    "test:build": "npm run build:all",
+    "init-db": "node scripts/init-supabase.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",
